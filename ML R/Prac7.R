@@ -1,0 +1,16 @@
+# install.packages("MASS")
+# install.packages("tree")
+library(MASS)
+library(tree)
+data(Boston)
+set.seed(123)
+tree_model <- tree(medv ~ ., data = Boston)
+summary(tree_model)
+plot(tree_model)
+text(tree_model, pretty = 0)
+cv_model <- cv.tree(tree_model)
+best_size <- cv_model$size[which.min(cv_model$dev)]
+pruned_tree <- prune.tree(tree_model, best = best_size)
+plot(pruned_tree)
+text(pruned_tree, pretty = 0)
+
